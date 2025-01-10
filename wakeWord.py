@@ -7,7 +7,9 @@ def test_wake_word(model_path, access_key):
         access_key=access_key,
         keyword_paths=[model_path]
     )
-
+    print(porcupine.sample_rate)
+    print(porcupine.frame_length)
+    
     # Initialize PyAudio
     pa = pyaudio.PyAudio()
     stream = pa.open(
@@ -15,6 +17,7 @@ def test_wake_word(model_path, access_key):
         channels=1,
         format=pyaudio.paInt16,
         input=True,
+        input_device_index=5,
         frames_per_buffer=porcupine.frame_length,
     )
     stream.start_stream()
@@ -24,6 +27,9 @@ def test_wake_word(model_path, access_key):
         while True:
             pcm = stream.read(porcupine.frame_length, exception_on_overflow=False)
             pcm = np.frombuffer(pcm, dtype=np.int16)
+            #pcm = pcm.reshape(-1, 2)  # Reshape to split left and right channels
+            #pcm = pcm.mean(axis=1).astype(np.int16)
+            print(f"Audio level: {np.max(np.abs(pcm))}")
             keyword_index = porcupine.process(pcm)
             if keyword_index >= 0:
                 print("Wake word detected!")

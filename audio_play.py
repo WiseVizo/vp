@@ -21,7 +21,8 @@ with wave.open(sys.argv[1], 'rb') as wf:
                     channels=wf.getnchannels(),
                     rate=wf.getframerate(),
                     output=True)
-
+    print(wf.getparams())
+    print(p.get_format_from_width(wf.getsampwidth()))
     # Play samples from the wave file (3)
     data = wf.readframes(CHUNK)
     while len(data):  # Requires Python 3.8+ for :=

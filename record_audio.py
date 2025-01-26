@@ -3,10 +3,10 @@ import pyaudio
 
 # Parameters for recording
 FORMAT = pyaudio.paInt16  # 16-bit resolution
-CHANNELS = 2  # Mono audio
-RATE = 16000  # Use 16000 for DMIC16kHz
+CHANNELS = 1  # Mono audio
+RATE = 44100  # Use 16000 for DMIC16kHz
 CHUNK = 1024  # Chunk size
-RECORD_SECONDS = 5  # Duration of recording
+RECORD_SECONDS = 10  # Duration of recording
 OUTPUT_FILENAME = "output.wav"  # Output file name
 
 # Initialize PyAudio
@@ -17,7 +17,7 @@ stream = p.open(format=FORMAT,
                 channels=CHANNELS,
                 input=True,
                 rate=RATE,
-                input_device_index=5,# Use 4 for DMIC or 5 for DMIC16kHz
+                input_device_index=7,# Use 4 for DMIC or 5 for DMIC16kHz
                 frames_per_buffer=CHUNK)
 
 print("Recording...")
